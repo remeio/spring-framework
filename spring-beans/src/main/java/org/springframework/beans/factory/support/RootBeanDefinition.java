@@ -60,6 +60,7 @@ import org.springframework.util.Assert;
  * @see ChildBeanDefinition
  */
 @SuppressWarnings("serial")
+// 已被合并的 BeanDefinition，如多个 GenericBeanDefinition 合并为一个 RootBeanDefinition，或 @Bean 声明的 BeanDefinition
 public class RootBeanDefinition extends AbstractBeanDefinition {
 
 	@Nullable

@@ -34,6 +34,7 @@ import org.springframework.lang.Nullable;
  * @since 13 May 2001
  * @see PropertyValue
  */
+// 迭代器模式，PropertyValues 其实是多个 PropertyValue 的迭代器
 public interface PropertyValues extends Iterable<PropertyValue> {
 
 	/**

@@ -34,6 +34,7 @@ import org.springframework.lang.Nullable;
  * @since 1.1
  * @see MethodOverride
  */
+// 组合模式，以访问单个方法的方式获取方法覆盖
 public class MethodOverrides {
 
 	private final Set<MethodOverride> overrides = new CopyOnWriteArraySet<>();

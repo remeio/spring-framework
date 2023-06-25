@@ -65,6 +65,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	public static final String SCOPE_DEFAULT = "";
 
+	// 自动装配模式
 	/**
 	 * Constant that indicates no external autowiring at all.
 	 * @see #setAutowireMode
@@ -99,6 +100,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	@Deprecated
 	public static final int AUTOWIRE_AUTODETECT = AutowireCapableBeanFactory.AUTOWIRE_AUTODETECT;
 
+	// 依赖检查
 	/**
 	 * Constant that indicates no dependency check at all.
 	 * @see #setDependencyCheck
@@ -135,6 +137,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * <p>Currently, the method names detected during destroy method inference
 	 * are "close" and "shutdown", if present on the specific bean class.
 	 */
+	// 隐式的销毁方法
 	public static final String INFER_METHOD = "(inferred)";
 
 
@@ -160,6 +163,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	private boolean primary = false;
 
+	// 自动装配的指定候选者
 	private final Map<String, AutowireCandidateQualifier> qualifiers = new LinkedHashMap<>();
 
 	@Nullable
@@ -181,6 +185,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	@Nullable
 	private MutablePropertyValues propertyValues;
 
+	// 方法覆盖
 	private MethodOverrides methodOverrides = new MethodOverrides();
 
 	@Nullable
@@ -294,6 +299,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * in the given bean definition.
 	 * </ul>
 	 */
+	// 被另一个 BeanDefinition 覆盖
 	public void overrideFrom(BeanDefinition other) {
 		if (StringUtils.hasLength(other.getBeanClassName())) {
 			setBeanClassName(other.getBeanClassName());

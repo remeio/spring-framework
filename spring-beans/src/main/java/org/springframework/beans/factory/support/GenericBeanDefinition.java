@@ -40,6 +40,7 @@ import org.springframework.util.ObjectUtils;
  * @see ChildBeanDefinition
  */
 @SuppressWarnings("serial")
+// 通用 BeanDefinition，包含了父 BeanDefinition
 public class GenericBeanDefinition extends AbstractBeanDefinition {
 
 	@Nullable

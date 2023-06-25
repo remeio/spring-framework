@@ -68,6 +68,7 @@ public class MutablePropertyValues implements PropertyValues, Serializable {
 	 * @param original the PropertyValues to copy
 	 * @see #addPropertyValues(PropertyValues)
 	 */
+	// 原型模式，深拷贝
 	public MutablePropertyValues(@Nullable PropertyValues original) {
 		// We can optimize this because it's all new:
 		// There is no replacement of existing property values.
@@ -75,6 +76,7 @@ public class MutablePropertyValues implements PropertyValues, Serializable {
 			PropertyValue[] pvs = original.getPropertyValues();
 			this.propertyValueList = new ArrayList<>(pvs.length);
 			for (PropertyValue pv : pvs) {
+				// new 一个新的 PropertyValue 确保是深拷贝
 				this.propertyValueList.add(new PropertyValue(pv));
 			}
 		}
@@ -171,6 +173,7 @@ public class MutablePropertyValues implements PropertyValues, Serializable {
 	public MutablePropertyValues addPropertyValue(PropertyValue pv) {
 		for (int i = 0; i < this.propertyValueList.size(); i++) {
 			PropertyValue currentPv = this.propertyValueList.get(i);
+			// 如果 Value 是可合并的，进行合并
 			if (currentPv.getName().equals(pv.getName())) {
 				pv = mergeIfRequired(pv, currentPv);
 				setPropertyValueAt(pv, i);

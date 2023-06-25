@@ -41,6 +41,7 @@ import org.springframework.util.ObjectUtils;
  */
 public class LookupOverride extends MethodOverride {
 
+	// Bean 的名称
 	@Nullable
 	private final String beanName;
 

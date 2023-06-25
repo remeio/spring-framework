@@ -29,6 +29,7 @@ import org.springframework.util.Assert;
  * @author Sam Brannen
  * @since 2.0
  */
+// 属性访问器
 public interface AttributeAccessor {
 
 	/**
@@ -74,6 +75,7 @@ public interface AttributeAccessor {
 		Assert.notNull(name, "Name must not be null");
 		Assert.notNull(computeFunction, "Compute function must not be null");
 		Object value = getAttribute(name);
+		// 属性值为空才计算新属性值
 		if (value == null) {
 			value = computeFunction.apply(name);
 			Assert.state(value != null,

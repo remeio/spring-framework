@@ -44,6 +44,7 @@ import org.springframework.util.ObjectUtils;
  * @see RootBeanDefinition
  */
 @SuppressWarnings("serial")
+// 推荐用 GenericBeanDefinition 代替，源码中未见使用
 public class ChildBeanDefinition extends AbstractBeanDefinition {
 
 	@Nullable

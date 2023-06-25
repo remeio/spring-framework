@@ -28,6 +28,7 @@ import org.springframework.lang.Nullable;
  * @since 2.5
  */
 @SuppressWarnings("serial")
+// 接口隔离原则（ISP）
 public class BeanMetadataAttributeAccessor extends AttributeAccessorSupport implements BeanMetadataElement {
 
 	@Nullable

@@ -78,6 +78,7 @@ public class PropertyValue extends BeanMetadataAttributeAccessor implements Seri
 	 * Copy constructor.
 	 * @param original the PropertyValue to copy (never {@code null})
 	 */
+	// 原型模式，提供构造器进行深拷贝
 	public PropertyValue(PropertyValue original) {
 		Assert.notNull(original, "Original must not be null");
 		this.name = original.getName();

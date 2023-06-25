@@ -43,6 +43,7 @@ import org.springframework.util.ObjectUtils;
  */
 public class ConstructorArgumentValues {
 
+	// 使用有序的 LinkedHashMap
 	private final Map<Integer, ValueHolder> indexedArgumentValues = new LinkedHashMap<>();
 
 	private final List<ValueHolder> genericArgumentValues = new ArrayList<>();
@@ -58,6 +59,7 @@ public class ConstructorArgumentValues {
 	 * Deep copy constructor.
 	 * @param original the ConstructorArgumentValues to copy
 	 */
+	// 原型模式，提供深拷贝构造器
 	public ConstructorArgumentValues(ConstructorArgumentValues original) {
 		addArgumentValues(original);
 	}
@@ -613,6 +615,7 @@ public class ConstructorArgumentValues {
 		 * Create a copy of this ValueHolder: that is, an independent
 		 * ValueHolder instance with the same contents.
 		 */
+		// 原型模式，直接提供方法克隆对象
 		public ValueHolder copy() {
 			ValueHolder copy = new ValueHolder(this.value, this.type, this.name);
 			copy.setSource(this.source);

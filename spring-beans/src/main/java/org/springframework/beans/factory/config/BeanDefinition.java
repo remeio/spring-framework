@@ -152,6 +152,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	 * Set the names of the beans that this bean depends on being initialized.
 	 * The bean factory will guarantee that these beans get initialized first.
 	 */
+	// bean factory 会保证依赖先被加载
 	void setDependsOn(@Nullable String... dependsOn);
 
 	/**
@@ -351,6 +352,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	 * <p>Note that this method returns the immediate originator. Iterate through the
 	 * originator chain to find the original BeanDefinition as defined by the user.
 	 */
+	// 来源 BeanDefinition
 	@Nullable
 	BeanDefinition getOriginatingBeanDefinition();
 

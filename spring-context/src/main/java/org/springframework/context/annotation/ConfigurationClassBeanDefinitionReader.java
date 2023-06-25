@@ -381,6 +381,7 @@ class ConfigurationClassBeanDefinitionReader {
 	 * definition was created externally.
 	 */
 	@SuppressWarnings("serial")
+	// 配置类 BeanDefinition
 	private static class ConfigurationClassBeanDefinition extends RootBeanDefinition implements AnnotatedBeanDefinition {
 
 		private final AnnotationMetadata annotationMetadata;
