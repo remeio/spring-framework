@@ -39,6 +39,7 @@ import org.springframework.util.ResourceUtils;
  * @see org.springframework.context.ApplicationContext
  * @see org.springframework.context.ResourceLoaderAware
  */
+/// 策略模式，资源加载器会有不同的实现，以加载不同的资源
 public interface ResourceLoader {
 
 	/** Pseudo URL prefix for loading from the class path: "classpath:". */
@@ -64,6 +65,7 @@ public interface ResourceLoader {
 	 * @see Resource#exists()
 	 * @see Resource#getInputStream()
 	 */
+	// 资源加载器加载指定位置的资源
 	Resource getResource(String location);
 
 	/**
@@ -76,6 +78,7 @@ public interface ResourceLoader {
 	 * @see org.springframework.util.ClassUtils#getDefaultClassLoader()
 	 * @see org.springframework.util.ClassUtils#forName(String, ClassLoader)
 	 */
+	// 获取资源加载器的类加载器
 	@Nullable
 	ClassLoader getClassLoader();
 

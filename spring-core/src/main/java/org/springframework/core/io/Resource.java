@@ -53,6 +53,7 @@ import org.springframework.util.FileCopyUtils;
  * @see ByteArrayResource
  * @see InputStreamResource
  */
+// 资源，可以获取到其对应的输入流
 public interface Resource extends InputStreamSource {
 
 	/**

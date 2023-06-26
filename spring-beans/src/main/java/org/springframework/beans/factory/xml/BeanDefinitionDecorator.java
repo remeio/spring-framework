@@ -55,6 +55,7 @@ import org.springframework.beans.factory.config.BeanDefinitionHolder;
  * @see NamespaceHandler
  * @see BeanDefinitionParser
  */
+// BeanDefinition 装饰器，装饰器模式
 public interface BeanDefinitionDecorator {
 
 	/**

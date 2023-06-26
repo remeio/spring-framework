@@ -46,6 +46,7 @@ import org.springframework.util.StringUtils;
  * @see FileSystemResourceLoader
  * @see org.springframework.context.support.ClassPathXmlApplicationContext
  */
+// 默认资源加载器
 public class DefaultResourceLoader implements ResourceLoader {
 
 	@Nullable
@@ -142,30 +143,34 @@ public class DefaultResourceLoader implements ResourceLoader {
 	}
 
 
+	// 从指定的位置加载资源
 	@Override
 	public Resource getResource(String location) {
 		Assert.notNull(location, "Location must not be null");
-
+		// 自定义协议解析器先去加载
 		for (ProtocolResolver protocolResolver : getProtocolResolvers()) {
 			Resource resource = protocolResolver.resolve(location, this);
 			if (resource != null) {
 				return resource;
 			}
 		}
-
+		// / 开头的通过路径加载，
 		if (location.startsWith("/")) {
 			return getResourceByPath(location);
 		}
+		// classpath 开头的返回 ClassPathResource
 		else if (location.startsWith(CLASSPATH_URL_PREFIX)) {
 			return new ClassPathResource(location.substring(CLASSPATH_URL_PREFIX.length()), getClassLoader());
 		}
 		else {
 			try {
+				// 使用 URL 加载方式，返回 FileUrlResource 或 UrlResource
 				// Try to parse the location as a URL...
 				URL url = ResourceUtils.toURL(location);
 				return (ResourceUtils.isFileURL(url) ? new FileUrlResource(url) : new UrlResource(url));
 			}
 			catch (MalformedURLException ex) {
+				// 通过路径加载
 				// No URL -> resolve as resource path.
 				return getResourceByPath(location);
 			}
@@ -183,6 +188,7 @@ public class DefaultResourceLoader implements ResourceLoader {
 	 * @see org.springframework.context.support.FileSystemXmlApplicationContext#getResourceByPath
 	 * @see org.springframework.web.context.support.XmlWebApplicationContext#getResourceByPath
 	 */
+	// 模板方法模式，子类可以重写
 	protected Resource getResourceByPath(String path) {
 		return new ClassPathContextResource(path, getClassLoader());
 	}
