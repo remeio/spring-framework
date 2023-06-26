@@ -37,6 +37,7 @@ import org.springframework.lang.Nullable;
  * @since 1.1
  * @see org.springframework.core.io.Resource
  */
+// BeanDefinition 读取器
 public interface BeanDefinitionReader {
 
 	/**
@@ -44,6 +45,7 @@ public interface BeanDefinitionReader {
 	 * <p>The factory is exposed through the {@link BeanDefinitionRegistry} interface,
 	 * encapsulating the methods that are relevant for bean definition handling.
 	 */
+	// BeanDefinition 注册中心
 	BeanDefinitionRegistry getRegistry();
 
 	/**
@@ -63,6 +65,7 @@ public interface BeanDefinitionReader {
 	 * @see #loadBeanDefinitions(String)
 	 * @see org.springframework.core.io.support.ResourcePatternResolver
 	 */
+	// 资源加载器
 	@Nullable
 	ResourceLoader getResourceLoader();
 
@@ -72,6 +75,7 @@ public interface BeanDefinitionReader {
 	 * but rather to just register bean definitions with class names,
 	 * with the corresponding classes to be resolved later (or never).
 	 */
+	// Bean 的类加载器
 	@Nullable
 	ClassLoader getBeanClassLoader();
 
@@ -79,6 +83,7 @@ public interface BeanDefinitionReader {
 	 * Return the {@link BeanNameGenerator} to use for anonymous beans
 	 * (without explicit bean name specified).
 	 */
+	// Bean 名称生成器
 	BeanNameGenerator getBeanNameGenerator();
 
 
@@ -88,6 +93,7 @@ public interface BeanDefinitionReader {
 	 * @return the number of bean definitions found
 	 * @throws BeanDefinitionStoreException in case of loading or parsing errors
 	 */
+	// 从资源加载 BeanDefinition，模板方法模式，由子类实现具体的资源加载方式
 	int loadBeanDefinitions(Resource resource) throws BeanDefinitionStoreException;
 
 	/**
@@ -111,6 +117,7 @@ public interface BeanDefinitionReader {
 	 * @see #loadBeanDefinitions(org.springframework.core.io.Resource)
 	 * @see #loadBeanDefinitions(org.springframework.core.io.Resource[])
 	 */
+	// 从指定位置加载 BeanDefinition
 	int loadBeanDefinitions(String location) throws BeanDefinitionStoreException;
 
 	/**
