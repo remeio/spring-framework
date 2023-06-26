@@ -28,6 +28,7 @@ import org.springframework.lang.Nullable;
  * @see org.springframework.beans.factory.config.BeanDefinitionVisitor#BeanDefinitionVisitor(StringValueResolver)
  * @see org.springframework.beans.factory.config.PropertyPlaceholderConfigurer
  */
+// 字符串解析器
 @FunctionalInterface
 public interface StringValueResolver {
 

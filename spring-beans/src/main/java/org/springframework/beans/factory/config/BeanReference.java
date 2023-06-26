@@ -30,6 +30,7 @@ import org.springframework.beans.BeanMetadataElement;
  * @author Juergen Hoeller
  * @since 2.0
  */
+// Bean 引用
 public interface BeanReference extends BeanMetadataElement {
 
 	/**

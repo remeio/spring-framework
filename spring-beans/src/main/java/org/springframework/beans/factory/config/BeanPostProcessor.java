@@ -55,6 +55,7 @@ import org.springframework.lang.Nullable;
  * @see ConfigurableBeanFactory#addBeanPostProcessor
  * @see BeanFactoryPostProcessor
  */
+// Bean 的后置处理器
 public interface BeanPostProcessor {
 
 	/**

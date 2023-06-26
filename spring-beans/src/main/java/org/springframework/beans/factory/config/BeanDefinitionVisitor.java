@@ -45,6 +45,7 @@ import org.springframework.util.StringValueResolver;
  * @see BeanDefinition#getConstructorArgumentValues
  * @see PlaceholderConfigurerSupport
  */
+// 访问者模式，主要目的是通过 StringValueResolver 解析一遍 BeanDefinition 中的 StringValue
 public class BeanDefinitionVisitor {
 
 	@Nullable
@@ -75,6 +76,7 @@ public class BeanDefinitionVisitor {
 	 * @param beanDefinition the BeanDefinition object to traverse
 	 * @see #resolveStringValue(String)
 	 */
+	// 访问者模式，获取到 BeanDefinition 的引用，用访问者去修改 BeanDefinition 的属性
 	public void visitBeanDefinition(BeanDefinition beanDefinition) {
 		visitParentName(beanDefinition);
 		visitBeanClassName(beanDefinition);
@@ -172,6 +174,7 @@ public class BeanDefinitionVisitor {
 	@SuppressWarnings("rawtypes")
 	@Nullable
 	protected Object resolveValue(@Nullable Object value) {
+		// 将 PropertyValues
 		if (value instanceof BeanDefinition beanDef) {
 			visitBeanDefinition(beanDef);
 		}

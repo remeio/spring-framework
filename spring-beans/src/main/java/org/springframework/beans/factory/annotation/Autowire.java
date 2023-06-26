@@ -32,6 +32,7 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
  * @see org.springframework.beans.factory.annotation.Configurable
  * @see org.springframework.beans.factory.config.AutowireCapableBeanFactory
  */
+// 自动装配方式枚举类
 public enum Autowire {
 
 	/**

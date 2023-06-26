@@ -59,6 +59,7 @@ import org.springframework.beans.BeansException;
  * @see BeanPostProcessor
  * @see PropertyResourceConfigurer
  */
+// Bean 工厂的后置处理器
 @FunctionalInterface
 public interface BeanFactoryPostProcessor {
 

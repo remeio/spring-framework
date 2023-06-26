@@ -29,6 +29,7 @@ import org.springframework.util.Assert;
  * @see org.springframework.beans.factory.BeanFactory#getBean(String)
  * @see org.springframework.beans.factory.BeanFactory#getBean(Class)
  */
+// 运行时 Bean 引用，用于记录引用类型的属性值
 public class RuntimeBeanReference implements BeanReference {
 
 	private final String beanName;

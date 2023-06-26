@@ -36,6 +36,7 @@ import org.springframework.util.ObjectUtils;
  * @author Juergen Hoeller
  * @since 2.0
  */
+// Builder 模式
 public final class BeanDefinitionBuilder {
 
 	/**

@@ -24,6 +24,7 @@ package org.springframework.beans.factory.config;
  * @since 5.0
  * @see org.springframework.beans.factory.support.BeanDefinitionBuilder#applyCustomizers
  */
+// BeanDefinition 消费者函数式接口，用于 BeanDefinitionBuilder 中自定义 BeanDefinition
 @FunctionalInterface
 public interface BeanDefinitionCustomizer {
 

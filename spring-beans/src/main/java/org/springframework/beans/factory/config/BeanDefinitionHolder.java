@@ -37,6 +37,7 @@ import org.springframework.util.StringUtils;
  * @see org.springframework.beans.factory.support.RootBeanDefinition
  * @see org.springframework.beans.factory.support.ChildBeanDefinition
  */
+// BeanDefinitionHolder 用于持有 BeanDefinition，Bean 名称，Bean 别名
 public class BeanDefinitionHolder implements BeanMetadataElement {
 
 	private final BeanDefinition beanDefinition;
@@ -77,6 +78,7 @@ public class BeanDefinitionHolder implements BeanMetadataElement {
 	 * it is {@code not} deeply copied.
 	 * @param beanDefinitionHolder the BeanDefinitionHolder to copy
 	 */
+	// 原型模式，拷贝对象，其中 BeanDefinition 是引用拷贝，不是深拷贝
 	public BeanDefinitionHolder(BeanDefinitionHolder beanDefinitionHolder) {
 		Assert.notNull(beanDefinitionHolder, "BeanDefinitionHolder must not be null");
 		this.beanDefinition = beanDefinitionHolder.getBeanDefinition();

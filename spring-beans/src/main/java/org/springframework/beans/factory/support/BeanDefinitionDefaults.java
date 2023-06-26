@@ -27,6 +27,7 @@ import org.springframework.util.StringUtils;
  * @since 2.5
  * @see AbstractBeanDefinition#applyDefaults
  */
+// 给 BeanDefinition 设置默认值
 public class BeanDefinitionDefaults {
 
 	@Nullable
