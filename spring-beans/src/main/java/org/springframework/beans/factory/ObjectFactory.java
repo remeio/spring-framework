@@ -36,6 +36,7 @@ import org.springframework.beans.BeansException;
  * @param <T> the object type
  * @see FactoryBean
  */
+// 工厂模式，用于 SPI
 @FunctionalInterface
 public interface ObjectFactory<T> {
 

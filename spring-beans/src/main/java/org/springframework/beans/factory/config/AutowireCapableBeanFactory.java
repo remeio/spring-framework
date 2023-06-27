@@ -59,6 +59,7 @@ import org.springframework.lang.Nullable;
  * @see org.springframework.beans.factory.config.ConfigurableListableBeanFactory
  * @see org.springframework.context.ApplicationContext#getAutowireCapableBeanFactory()
  */
+// 可自动装配的 BeanFactory，扩展 BeanFactory 使其可以实现自动装配
 public interface AutowireCapableBeanFactory extends BeanFactory {
 
 	/**
@@ -133,6 +134,7 @@ public interface AutowireCapableBeanFactory extends BeanFactory {
 	 * @return the new bean instance
 	 * @throws BeansException if instantiation or wiring failed
 	 */
+	// 完整的创建一个 Bean
 	<T> T createBean(Class<T> beanClass) throws BeansException;
 
 	/**
@@ -145,6 +147,7 @@ public interface AutowireCapableBeanFactory extends BeanFactory {
 	 * @param existingBean the existing bean instance
 	 * @throws BeansException if wiring failed
 	 */
+	// 实例化 Bean 之后进行 populate 设置属性值
 	void autowireBean(Object existingBean) throws BeansException;
 
 	/**
@@ -218,6 +221,7 @@ public interface AutowireCapableBeanFactory extends BeanFactory {
 	 * @see #applyBeanPostProcessorsBeforeInitialization
 	 * @see #applyBeanPostProcessorsAfterInitialization
 	 */
+	// 实例化 Bean，并自动装配对象，根据不同的自动装配模式执行不同的装配方法
 	Object autowire(Class<?> beanClass, int autowireMode, boolean dependencyCheck) throws BeansException;
 
 	/**
@@ -282,6 +286,7 @@ public interface AutowireCapableBeanFactory extends BeanFactory {
 	 * @throws BeansException if the initialization failed
 	 * @see #ORIGINAL_INSTANCE_SUFFIX
 	 */
+	// 初始化 Bean
 	Object initializeBean(Object existingBean, String beanName) throws BeansException;
 
 	/**
@@ -332,6 +337,7 @@ public interface AutowireCapableBeanFactory extends BeanFactory {
 	//-------------------------------------------------------------------------
 	// Delegate methods for resolving injection points
 	//-------------------------------------------------------------------------
+	// 注入委派方法
 
 	/**
 	 * Resolve the bean instance that uniquely matches the given object type, if any,

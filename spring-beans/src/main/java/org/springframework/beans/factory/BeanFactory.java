@@ -117,6 +117,9 @@ import org.springframework.lang.Nullable;
  * @see DisposableBean#destroy
  * @see org.springframework.beans.factory.support.RootBeanDefinition#getDestroyMethodName
  */
+// Bean Factory，即 Spring 的 Bean 容器，需要维护 Bean 的生命周期
+// 使用 DI 也就是 push 的方式注入依赖（依赖注入），而非 pull（依赖查找） 的方式
+// ISP（接口隔离原则），BeanFactory 的实现会实现不同的接口，以实现不同的目的，如可列表的，层次性，可配置等
 public interface BeanFactory {
 
 	/**
@@ -125,6 +128,7 @@ public interface BeanFactory {
 	 * {@code myJndiObject} is a FactoryBean, getting {@code &myJndiObject}
 	 * will return the factory, not the instance returned by the factory.
 	 */
+	// &FactoryBean 会返回工厂，而非工厂创建的实例
 	String FACTORY_BEAN_PREFIX = "&";
 
 
@@ -227,6 +231,7 @@ public interface BeanFactory {
 	 * @since 5.1
 	 * @see #getBeanProvider(ResolvableType)
 	 */
+	// 懒加载的方式获取 Bean
 	<T> ObjectProvider<T> getBeanProvider(Class<T> requiredType);
 
 	/**

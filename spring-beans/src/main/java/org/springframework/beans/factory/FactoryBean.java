@@ -62,6 +62,8 @@ import org.springframework.lang.Nullable;
  * @see org.springframework.aop.framework.ProxyFactoryBean
  * @see org.springframework.jndi.JndiObjectFactoryBean
  */
+// 工厂模式，工厂 Bean，本质上还是一个 Bean，不过可以创建额外的 Bean，容器会管理 Factory Bean 实例的生命周期，而不管理其创建的实例的生命周期
+// 用于一些复杂 Bean 的生成
 public interface FactoryBean<T> {
 
 	/**

@@ -31,11 +31,13 @@ import org.springframework.lang.Nullable;
  * @since 07.07.2003
  * @see org.springframework.beans.factory.config.ConfigurableBeanFactory#setParentBeanFactory
  */
+// 层次性的 BeanFactory
 public interface HierarchicalBeanFactory extends BeanFactory {
 
 	/**
 	 * Return the parent bean factory, or {@code null} if there is none.
 	 */
+	// 返回父 BeanFactory
 	@Nullable
 	BeanFactory getParentBeanFactory();
 
@@ -48,6 +50,7 @@ public interface HierarchicalBeanFactory extends BeanFactory {
 	 * @return whether a bean with the given name is defined in the local factory
 	 * @see BeanFactory#containsBean
 	 */
+	// 当前 BeanFactory 是否包含镀锡
 	boolean containsLocalBean(String name);
 
 }

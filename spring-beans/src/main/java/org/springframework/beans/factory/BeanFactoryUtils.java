@@ -44,6 +44,7 @@ import org.springframework.util.StringUtils;
  * @author Chris Beams
  * @since 04.07.2003
  */
+// BeanFactory 工具类
 public abstract class BeanFactoryUtils {
 
 	/**
@@ -83,6 +84,7 @@ public abstract class BeanFactoryUtils {
 		if (!name.startsWith(BeanFactory.FACTORY_BEAN_PREFIX)) {
 			return name;
 		}
+		// 加入缓存的一种写法
 		return transformedBeanNameCache.computeIfAbsent(name, beanName -> {
 			do {
 				beanName = beanName.substring(BeanFactory.FACTORY_BEAN_PREFIX.length());
@@ -101,6 +103,7 @@ public abstract class BeanFactoryUtils {
 	 * @see org.springframework.beans.factory.support.BeanDefinitionReaderUtils#generateBeanName
 	 * @see org.springframework.beans.factory.support.DefaultBeanNameGenerator
 	 */
+	// 默认生成的 bean 名称为了保证 registry 中唯一，都会拼上 #no
 	public static boolean isGeneratedBeanName(@Nullable String name) {
 		return (name != null && name.contains(GENERATED_BEAN_NAME_SEPARATOR));
 	}
@@ -115,6 +118,7 @@ public abstract class BeanFactoryUtils {
 	public static String originalBeanName(String name) {
 		Assert.notNull(name, "'name' must not be null");
 		int separatorIndex = name.indexOf(GENERATED_BEAN_NAME_SEPARATOR);
+		// 只拿 # 前的 raw 名称
 		return (separatorIndex != -1 ? name.substring(0, separatorIndex) : name);
 	}
 

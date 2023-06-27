@@ -38,6 +38,7 @@ import org.springframework.lang.Nullable;
  * @see BeanFactory#getBeanProvider
  * @see org.springframework.beans.factory.annotation.Autowired
  */
+// 可以理解为懒加载 Bean 的一种方式，正常来说 getBean 会实例化 Bean，而 getBeanProvider 不会立刻实例化 Bean，而是等到 getObject 被执行时
 public interface ObjectProvider<T> extends ObjectFactory<T>, Iterable<T> {
 
 	/**
