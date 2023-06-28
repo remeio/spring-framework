@@ -62,6 +62,7 @@ import org.springframework.util.StringUtils;
  * @since 1.2
  * @see AbstractAutowireCapableBeanFactory
  */
+// BeanDefinition 值解析器，用于将 BeanDefinition 中定义的值转为实际值
 public class BeanDefinitionValueResolver {
 
 	private final AbstractAutowireCapableBeanFactory beanFactory;
@@ -127,13 +128,16 @@ public class BeanDefinitionValueResolver {
 	 * @param value the value object to resolve
 	 * @return the resolved object
 	 */
+	// 解析值，如 value 属性中的值需要转为指定类型
 	@Nullable
 	public Object resolveValueIfNecessary(Object argName, @Nullable Object value) {
 		// We must check each value to see whether it requires a runtime reference
 		// to another bean to be resolved.
+		// 引用类型
 		if (value instanceof RuntimeBeanReference ref) {
 			return resolveReference(argName, ref);
 		}
+		// 引用 Bean 名称，实际还是字符串
 		else if (value instanceof RuntimeBeanNameReference ref) {
 			String refName = ref.getBeanName();
 			refName = String.valueOf(doEvaluate(refName));
@@ -148,10 +152,12 @@ public class BeanDefinitionValueResolver {
 			return resolveInnerBean(bdHolder.getBeanName(), bdHolder.getBeanDefinition(),
 					(name, mbd) -> resolveInnerBeanValue(argName, name, mbd));
 		}
+		// 内联的 BeanDefinition
 		else if (value instanceof BeanDefinition bd) {
 			return resolveInnerBean(null, bd,
 					(name, mbd) -> resolveInnerBeanValue(argName, name, mbd));
 		}
+		// 依赖描述符
 		else if (value instanceof DependencyDescriptor dependencyDescriptor) {
 			Set<String> autowiredBeanNames = new LinkedHashSet<>(4);
 			Object result = this.beanFactory.resolveDependency(
@@ -163,6 +169,7 @@ public class BeanDefinitionValueResolver {
 			}
 			return result;
 		}
+		// 数组
 		else if (value instanceof ManagedArray managedArray) {
 			// May need to resolve contained runtime references.
 			Class<?> elementType = managedArray.resolvedElementType;
@@ -186,18 +193,22 @@ public class BeanDefinitionValueResolver {
 			}
 			return resolveManagedArray(argName, (List<?>) value, elementType);
 		}
+		// 列表
 		else if (value instanceof ManagedList<?> managedList) {
 			// May need to resolve contained runtime references.
 			return resolveManagedList(argName, managedList);
 		}
+		// 集合
 		else if (value instanceof ManagedSet<?> managedSet) {
 			// May need to resolve contained runtime references.
 			return resolveManagedSet(argName, managedSet);
 		}
+		// 映射
 		else if (value instanceof ManagedMap<?, ?> managedMap) {
 			// May need to resolve contained runtime references.
 			return resolveManagedMap(argName, managedMap);
 		}
+		// Properties 配置
 		else if (value instanceof ManagedProperties original) {
 			// Properties original = managedProperties;
 			Properties copy = new Properties();
@@ -217,6 +228,7 @@ public class BeanDefinitionValueResolver {
 			});
 			return copy;
 		}
+		// 字符串转为对象，使用 TypeConverter 转换
 		else if (value instanceof TypedStringValue typedStringValue) {
 			// Convert value to target type here.
 			Object valueObject = evaluate(typedStringValue);
@@ -236,10 +248,12 @@ public class BeanDefinitionValueResolver {
 						"Error converting typed String value for " + argName, ex);
 			}
 		}
+		// 空 Bean
 		else if (value instanceof NullBean) {
 			return null;
 		}
 		else {
+			// 当作表达式评估
 			return evaluate(value);
 		}
 	}
