@@ -137,9 +137,10 @@ class ConstructorResolver {
 	 * or {@code null} if none (-> use constructor argument values from bean definition)
 	 * @return a BeanWrapper for the new instance
 	 */
+	// 构造器注入的实现，最终会返回被构造器注入过的 Bean，包装为 BeanWrapper
 	public BeanWrapper autowireConstructor(String beanName, RootBeanDefinition mbd,
 			@Nullable Constructor<?>[] chosenCtors, @Nullable Object[] explicitArgs) {
-
+		// TODO 添加构造器注入的实现
 		BeanWrapperImpl bw = new BeanWrapperImpl();
 		this.beanFactory.initBeanWrapper(bw);
 

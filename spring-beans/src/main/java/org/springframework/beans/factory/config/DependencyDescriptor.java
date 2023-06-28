@@ -48,6 +48,7 @@ import org.springframework.util.ObjectUtils;
  * @since 2.5
  */
 @SuppressWarnings("serial")
+// 依赖描述符
 public class DependencyDescriptor extends InjectionPoint implements Serializable {
 
 	private final Class<?> declaringClass;

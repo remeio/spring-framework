@@ -1198,13 +1198,16 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			}
 		}
 
+		// 检查自动装配构造器候选者
 		// Candidate constructors for autowiring?
 		Constructor<?>[] ctors = determineConstructorsFromBeanPostProcessors(beanClass, beanName);
 		if (ctors != null || mbd.getResolvedAutowireMode() == AUTOWIRE_CONSTRUCTOR ||
 				mbd.hasConstructorArgumentValues() || !ObjectUtils.isEmpty(args)) {
+			// 通过构造器自动装配
 			return autowireConstructor(beanName, mbd, ctors, args);
 		}
 
+		// 如果设置了首选构造器，则通过首选构造器注入
 		// Preferred constructors for default construction?
 		ctors = mbd.getPreferredConstructors();
 		if (ctors != null) {
@@ -1305,6 +1308,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		if (beanClass != null && hasInstantiationAwareBeanPostProcessors()) {
 			for (SmartInstantiationAwareBeanPostProcessor bp : getBeanPostProcessorCache().smartInstantiationAware) {
 				Constructor<?>[] ctors = bp.determineCandidateConstructors(beanClass, beanName);
+				// 遍历 SmartInstantiationAwareBeanPostProcessor 获取构造器候选者
 				if (ctors != null) {
 					return ctors;
 				}
@@ -1364,6 +1368,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * or {@code null} if none (implying the use of constructor argument values from bean definition)
 	 * @return a BeanWrapper for the new instance
 	 */
+	// 通过构造器自动装配
 	protected BeanWrapper autowireConstructor(
 			String beanName, RootBeanDefinition mbd, @Nullable Constructor<?>[] ctors, @Nullable Object[] explicitArgs) {
 

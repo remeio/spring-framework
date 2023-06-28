@@ -44,6 +44,7 @@ import org.springframework.util.ReflectionUtils;
  * @author Juergen Hoeller
  * @since 2.5
  */
+// 注入元数据，用于描述一个类有哪些注入点，也就是注入元素
 public class InjectionMetadata {
 
 	/**
@@ -136,12 +137,14 @@ public class InjectionMetadata {
 		}
 	}
 
+	// 注入，目标对象，请求依赖注入的 Bean，属性值
 	public void inject(Object target, @Nullable String beanName, @Nullable PropertyValues pvs) throws Throwable {
 		Collection<InjectedElement> checkedElements = this.checkedElements;
 		Collection<InjectedElement> elementsToIterate =
 				(checkedElements != null ? checkedElements : this.injectedElements);
 		if (!elementsToIterate.isEmpty()) {
 			for (InjectedElement element : elementsToIterate) {
+				// 依次注入
 				element.inject(target, beanName, pvs);
 			}
 		}
@@ -190,10 +193,12 @@ public class InjectionMetadata {
 	/**
 	 * A single injected element.
 	 */
+	// 注入元素
 	public abstract static class InjectedElement {
 
 		protected final Member member;
 
+		// 是否是字段
 		protected final boolean isField;
 
 		@Nullable
@@ -202,6 +207,7 @@ public class InjectionMetadata {
 		@Nullable
 		protected volatile Boolean skip;
 
+		// 成员，及属性描述符
 		protected InjectedElement(Member member, @Nullable PropertyDescriptor pd) {
 			this.member = member;
 			this.isField = (member instanceof Field);
@@ -249,6 +255,7 @@ public class InjectionMetadata {
 		 * @since 6.0.10
 		 */
 		protected boolean shouldInject(@Nullable PropertyValues pvs) {
+			// 如果是字段，则需要注入
 			if (this.isField) {
 				return true;
 			}
@@ -264,15 +271,19 @@ public class InjectionMetadata {
 			if (!shouldInject(pvs)) {
 				return;
 			}
+			// 字段注入
 			if (this.isField) {
 				Field field = (Field) this.member;
 				ReflectionUtils.makeAccessible(field);
+				// 反射设置到字段里
 				field.set(target, getResourceToInject(target, requestingBeanName));
 			}
+			// 方法注入
 			else {
 				try {
 					Method method = (Method) this.member;
 					ReflectionUtils.makeAccessible(method);
+					// 反射执行方法
 					method.invoke(target, getResourceToInject(target, requestingBeanName));
 				}
 				catch (InvocationTargetException ex) {
@@ -301,6 +312,7 @@ public class InjectionMetadata {
 					return skip;
 				}
 				if (this.pd != null) {
+					// 显式声明了属性的值，则跳过注入
 					if (pvs.contains(this.pd.getName())) {
 						// Explicit value provided as part of the bean definition.
 						this.skip = true;
@@ -333,8 +345,10 @@ public class InjectionMetadata {
 		/**
 		 * Either this or {@link #inject} needs to be overridden.
 		 */
+		// 模板方法模式，要么重写 inject 方法，要么重写 getResourceToInject 方法
 		@Nullable
 		protected Object getResourceToInject(Object target, @Nullable String requestingBeanName) {
+			// 需要返回要注入的 Bean
 			return null;
 		}
 
