@@ -36,6 +36,7 @@ import org.springframework.lang.Nullable;
  * @see KotlinReflectionParameterNameDiscoverer
  * @see DefaultParameterNameDiscoverer
  */
+// 标准反射参数名称发现器
 public class StandardReflectionParameterNameDiscoverer implements ParameterNameDiscoverer {
 
 	@Override

@@ -29,6 +29,7 @@ import org.springframework.lang.Nullable;
  * @author Mark Fisher
  * @since 2.5
  */
+// 自动装配候选者解析器
 public interface AutowireCandidateResolver {
 
 	/**
@@ -41,6 +42,7 @@ public interface AutowireCandidateResolver {
 	 * @return whether the bean definition qualifies as autowire candidate
 	 * @see org.springframework.beans.factory.config.BeanDefinition#isAutowireCandidate()
 	 */
+	// 给定的 Bean 是否是给定依赖的候选者
 	default boolean isAutowireCandidate(BeanDefinitionHolder bdHolder, DependencyDescriptor descriptor) {
 		return bdHolder.getBeanDefinition().isAutowireCandidate();
 	}
@@ -54,6 +56,7 @@ public interface AutowireCandidateResolver {
 	 * @since 5.0
 	 * @see DependencyDescriptor#isRequired()
 	 */
+	// 是否是必须的
 	default boolean isRequired(DependencyDescriptor descriptor) {
 		return descriptor.isRequired();
 	}
@@ -68,6 +71,7 @@ public interface AutowireCandidateResolver {
 	 * @since 5.1
 	 * @see org.springframework.beans.factory.annotation.QualifierAnnotationAutowireCandidateResolver#hasQualifier
 	 */
+	// 是否有 Qualifier
 	default boolean hasQualifier(DependencyDescriptor descriptor) {
 		return false;
 	}
@@ -80,6 +84,7 @@ public interface AutowireCandidateResolver {
 	 * or {@code null} if none found
 	 * @since 3.0
 	 */
+	//获取建议值
 	@Nullable
 	default Object getSuggestedValue(DependencyDescriptor descriptor) {
 		return null;
@@ -95,6 +100,7 @@ public interface AutowireCandidateResolver {
 	 * or {@code null} if straight resolution is to be performed
 	 * @since 4.0
 	 */
+	// 处理 Lazy
 	@Nullable
 	default Object getLazyResolutionProxyIfNecessary(DependencyDescriptor descriptor, @Nullable String beanName) {
 		return null;

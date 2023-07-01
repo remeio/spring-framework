@@ -398,6 +398,10 @@ public interface AutowireCapableBeanFactory extends BeanFactory {
 	 * @since 2.5
 	 * @see DependencyDescriptor
 	 */
+	// 解析依赖
+	// 依赖描述符指的是字段，方法，构造器所需依赖的描述符
+	// 请求 Bean 名称指的是声明这些依赖的 Bean
+	// 自动装配 Bean 的名称
 	@Nullable
 	Object resolveDependency(DependencyDescriptor descriptor, @Nullable String requestingBeanName,
 			@Nullable Set<String> autowiredBeanNames, @Nullable TypeConverter typeConverter) throws BeansException;

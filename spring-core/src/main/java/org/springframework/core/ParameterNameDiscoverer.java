@@ -33,6 +33,7 @@ import org.springframework.lang.Nullable;
  * @author Adrian Colyer
  * @since 2.0
  */
+// 获取方法或构造器中的参数名称
 public interface ParameterNameDiscoverer {
 
 	/**
