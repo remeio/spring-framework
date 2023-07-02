@@ -84,6 +84,7 @@ import org.springframework.util.ReflectionUtils;
  * @see #setDestroyAnnotationType
  */
 @SuppressWarnings("serial")
+// 初始化销毁方法注解 Bean 后置处理器
 public class InitDestroyAnnotationBeanPostProcessor implements DestructionAwareBeanPostProcessor,
 		MergedBeanDefinitionPostProcessor, BeanRegistrationAotProcessor, PriorityOrdered, Serializable {
 
@@ -107,9 +108,11 @@ public class InitDestroyAnnotationBeanPostProcessor implements DestructionAwareB
 
 	protected transient Log logger = LogFactory.getLog(getClass());
 
+	// 初始化注解
 	@Nullable
 	private Class<? extends Annotation> initAnnotationType;
 
+	// 销毁注解
 	@Nullable
 	private Class<? extends Annotation> destroyAnnotationType;
 
@@ -188,8 +191,10 @@ public class InitDestroyAnnotationBeanPostProcessor implements DestructionAwareB
 
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+		// 获取初始化和销毁方法
 		LifecycleMetadata metadata = findLifecycleMetadata(bean.getClass());
 		try {
+			// 调用初始化方法
 			metadata.invokeInitMethods(bean, beanName);
 		}
 		catch (InvocationTargetException ex) {
@@ -208,8 +213,10 @@ public class InitDestroyAnnotationBeanPostProcessor implements DestructionAwareB
 
 	@Override
 	public void postProcessBeforeDestruction(Object bean, String beanName) throws BeansException {
+		// 获取初始化和销毁方法
 		LifecycleMetadata metadata = findLifecycleMetadata(bean.getClass());
 		try {
+			// 调用销毁方法
 			metadata.invokeDestroyMethods(bean, beanName);
 		}
 		catch (InvocationTargetException ex) {
@@ -252,6 +259,7 @@ public class InitDestroyAnnotationBeanPostProcessor implements DestructionAwareB
 		return metadata;
 	}
 
+	// 根据类找到对于的初始化和销毁方法
 	private LifecycleMetadata buildLifecycleMetadata(final Class<?> clazz) {
 		if (!AnnotationUtils.isCandidateClass(clazz, Arrays.asList(this.initAnnotationType, this.destroyAnnotationType))) {
 			return this.emptyLifecycleMetadata;
@@ -264,8 +272,9 @@ public class InitDestroyAnnotationBeanPostProcessor implements DestructionAwareB
 		do {
 			final List<LifecycleElement> currInitMethods = new ArrayList<>();
 			final List<LifecycleElement> currDestroyMethods = new ArrayList<>();
-
+			// 依次遍历类的各个方法
 			ReflectionUtils.doWithLocalMethods(targetClass, method -> {
+				// 如果标注了初始化注解，就进行记录
 				if (this.initAnnotationType != null && method.isAnnotationPresent(this.initAnnotationType)) {
 					LifecycleElement element = new LifecycleElement(method);
 					currInitMethods.add(element);
@@ -273,6 +282,7 @@ public class InitDestroyAnnotationBeanPostProcessor implements DestructionAwareB
 						logger.trace("Found init method on class [" + clazz.getName() + "]: " + method);
 					}
 				}
+				// 如果标注了销毁注解，就进行记录
 				if (this.destroyAnnotationType != null && method.isAnnotationPresent(this.destroyAnnotationType)) {
 					currDestroyMethods.add(new LifecycleElement(method));
 					if (logger.isTraceEnabled()) {
@@ -285,6 +295,7 @@ public class InitDestroyAnnotationBeanPostProcessor implements DestructionAwareB
 			destroyMethods.addAll(currDestroyMethods);
 			targetClass = targetClass.getSuperclass();
 		}
+		// 遍历父类
 		while (targetClass != null && targetClass != Object.class);
 
 		return (initMethods.isEmpty() && destroyMethods.isEmpty() ? this.emptyLifecycleMetadata :
@@ -305,6 +316,7 @@ public class InitDestroyAnnotationBeanPostProcessor implements DestructionAwareB
 	}
 
 
+	// 类的初始化和销毁方法的信息
 	/**
 	 * Class representing information about annotated init and destroy methods.
 	 */
@@ -357,6 +369,7 @@ public class InitDestroyAnnotationBeanPostProcessor implements DestructionAwareB
 			this.checkedDestroyMethods = checkedDestroyMethods;
 		}
 
+		// 反射调用初始化方法
 		public void invokeInitMethods(Object target, String beanName) throws Throwable {
 			Collection<LifecycleElement> checkedInitMethods = this.checkedInitMethods;
 			Collection<LifecycleElement> initMethodsToIterate =
@@ -371,6 +384,7 @@ public class InitDestroyAnnotationBeanPostProcessor implements DestructionAwareB
 			}
 		}
 
+		// 反射调用销毁方法
 		public void invokeDestroyMethods(Object target, String beanName) throws Throwable {
 			Collection<LifecycleElement> checkedDestroyMethods = this.checkedDestroyMethods;
 			Collection<LifecycleElement> destroyMethodsToUse =

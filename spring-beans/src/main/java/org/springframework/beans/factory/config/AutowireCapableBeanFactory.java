@@ -368,6 +368,7 @@ public interface AutowireCapableBeanFactory extends BeanFactory {
 	 * @since 5.1.5
 	 * @see #getBean(String, Class)
 	 */
+	// 通过名称解析 Bean
 	Object resolveBeanByName(String name, DependencyDescriptor descriptor) throws BeansException;
 
 	/**
