@@ -28,6 +28,7 @@ import org.springframework.lang.Nullable;
  * @author Chris Beams
  * @since 3.1
  */
+// 可配置的属性解析器
 public interface ConfigurablePropertyResolver extends PropertyResolver {
 
 	/**

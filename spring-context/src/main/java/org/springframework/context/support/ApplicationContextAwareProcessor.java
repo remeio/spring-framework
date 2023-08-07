@@ -58,6 +58,7 @@ import org.springframework.util.StringValueResolver;
  * @see org.springframework.context.ApplicationContextAware
  * @see org.springframework.context.support.AbstractApplicationContext#refresh()
  */
+// 应用上下文 Aware Bean 后置处理器
 class ApplicationContextAwareProcessor implements BeanPostProcessor {
 
 	private final ConfigurableApplicationContext applicationContext;
@@ -90,6 +91,7 @@ class ApplicationContextAwareProcessor implements BeanPostProcessor {
 
 	private void invokeAwareInterfaces(Object bean) {
 		if (bean instanceof Aware) {
+			// 依次调用 Aware 子接口的 setter 方法
 			if (bean instanceof EnvironmentAware environmentAware) {
 				environmentAware.setEnvironment(this.applicationContext.getEnvironment());
 			}

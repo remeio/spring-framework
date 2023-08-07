@@ -25,6 +25,7 @@ import org.springframework.lang.Nullable;
  * @author Rod Johnson
  * @author Juergen Hoeller
  */
+// 层次性消息源
 public interface HierarchicalMessageSource extends MessageSource {
 
 	/**
@@ -34,6 +35,7 @@ public interface HierarchicalMessageSource extends MessageSource {
 	 * resolve messages that this object can't resolve.
 	 * May be {@code null}, in which case no further resolution is possible.
 	 */
+	// 设置父消息源
 	void setParentMessageSource(@Nullable MessageSource parent);
 
 	/**

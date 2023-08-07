@@ -36,6 +36,7 @@ import org.springframework.lang.Nullable;
  * @author Stephane Nicoll
  * @see ApplicationListener
  */
+// 应用事件广播器
 public interface ApplicationEventMulticaster {
 
 	/**
@@ -44,6 +45,7 @@ public interface ApplicationEventMulticaster {
 	 * @see #removeApplicationListener(ApplicationListener)
 	 * @see #removeApplicationListeners(Predicate)
 	 */
+	// 添加应用事件监听器
 	void addApplicationListener(ApplicationListener<?> listener);
 
 	/**
@@ -52,6 +54,7 @@ public interface ApplicationEventMulticaster {
 	 * @see #removeApplicationListenerBean(String)
 	 * @see #removeApplicationListenerBeans(Predicate)
 	 */
+	// 添加所有应用事件的应用监听器
 	void addApplicationListenerBean(String listenerBeanName);
 
 	/**
@@ -112,6 +115,7 @@ public interface ApplicationEventMulticaster {
 	 * if possible as it provides better support for generics-based events.
 	 * @param event the event to multicast
 	 */
+	// 广播事件
 	void multicastEvent(ApplicationEvent event);
 
 	/**

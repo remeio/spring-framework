@@ -30,6 +30,7 @@ package org.springframework.context;
  * @see org.springframework.context.event.ApplicationEventMulticaster
  * @see org.springframework.context.event.EventPublicationInterceptor
  */
+// 应用事件发布器
 @FunctionalInterface
 public interface ApplicationEventPublisher {
 
@@ -47,6 +48,7 @@ public interface ApplicationEventPublisher {
 	 * @see org.springframework.context.event.ContextRefreshedEvent
 	 * @see org.springframework.context.event.ContextClosedEvent
 	 */
+	// 发布应用事件
 	default void publishEvent(ApplicationEvent event) {
 		publishEvent((Object) event);
 	}

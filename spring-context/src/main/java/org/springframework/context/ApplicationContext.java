@@ -55,6 +55,7 @@ import org.springframework.lang.Nullable;
  * @see org.springframework.beans.factory.BeanFactory
  * @see org.springframework.core.io.ResourceLoader
  */
+// 应用上下文，提供配置应用的中心接口
 public interface ApplicationContext extends EnvironmentCapable, ListableBeanFactory, HierarchicalBeanFactory,
 		MessageSource, ApplicationEventPublisher, ResourcePatternResolver {
 
@@ -75,12 +76,14 @@ public interface ApplicationContext extends EnvironmentCapable, ListableBeanFact
 	 * Return a friendly name for this context.
 	 * @return a display name for this context (never {@code null})
 	 */
+	// 友好的名称
 	String getDisplayName();
 
 	/**
 	 * Return the timestamp when this context was first loaded.
 	 * @return the timestamp (ms) when this context was first loaded
 	 */
+	// 上下文启动的时间戳
 	long getStartupDate();
 
 	/**
@@ -112,6 +115,7 @@ public interface ApplicationContext extends EnvironmentCapable, ListableBeanFact
 	 * @see ConfigurableApplicationContext#refresh()
 	 * @see ConfigurableApplicationContext#getBeanFactory()
 	 */
+	// 暴露 BeanFactory，不希望应用代码使用
 	AutowireCapableBeanFactory getAutowireCapableBeanFactory() throws IllegalStateException;
 
 }

@@ -56,6 +56,7 @@ import org.springframework.lang.Nullable;
  * @author Stephane Nicoll
  * @since 4.0
  */
+// 后置处理器代理
 final class PostProcessorRegistrationDelegate {
 
 	private PostProcessorRegistrationDelegate() {
