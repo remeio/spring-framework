@@ -50,6 +50,7 @@ import org.springframework.util.ObjectUtils;
  * @see java.util.List#sort(java.util.Comparator)
  * @see java.util.Arrays#sort(Object[], java.util.Comparator)
  */
+// 顺序比较器
 public class OrderComparator implements Comparator<Object> {
 
 	/**
@@ -210,6 +211,7 @@ public class OrderComparator implements Comparator<Object> {
 	 * Strategy interface to provide an order source for a given object.
 	 * @since 4.1
 	 */
+	// 获取顺序来源提供器
 	@FunctionalInterface
 	public interface OrderSourceProvider {
 

@@ -44,6 +44,7 @@ import org.springframework.lang.Nullable;
  * @see org.springframework.core.annotation.Order
  * @see jakarta.annotation.Priority
  */
+// 注解顺序比较器（Ordered -> @Order -> @Priority）
 public class AnnotationAwareOrderComparator extends OrderComparator {
 
 	/**
@@ -61,10 +62,12 @@ public class AnnotationAwareOrderComparator extends OrderComparator {
 	@Override
 	@Nullable
 	protected Integer findOrder(Object obj) {
+		// 先看有没有实现 Order 接口
 		Integer order = super.findOrder(obj);
 		if (order != null) {
 			return order;
 		}
+		// 从注解中获取排序值
 		return findOrderFromAnnotation(obj);
 	}
 

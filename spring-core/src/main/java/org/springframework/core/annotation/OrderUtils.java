@@ -120,10 +120,12 @@ public abstract class OrderUtils {
 
 	@Nullable
 	private static Integer findOrder(MergedAnnotations annotations) {
+		// 获取 @Order 中的排序值
 		MergedAnnotation<Order> orderAnnotation = annotations.get(Order.class);
 		if (orderAnnotation.isPresent()) {
 			return orderAnnotation.getInt(MergedAnnotation.VALUE);
 		}
+		// 获取 @Priority 中的排序值
 		MergedAnnotation<?> priorityAnnotation = annotations.get(JAVAX_PRIORITY_ANNOTATION);
 		if (priorityAnnotation.isPresent()) {
 			return priorityAnnotation.getInt(MergedAnnotation.VALUE);
