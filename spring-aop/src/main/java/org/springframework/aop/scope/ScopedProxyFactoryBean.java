@@ -52,6 +52,7 @@ import org.springframework.util.ClassUtils;
  * @see #setProxyTargetClass
  */
 @SuppressWarnings("serial")
+// 作用域代理工厂 Bean
 public class ScopedProxyFactoryBean extends ProxyConfig
 		implements FactoryBean<Object>, BeanFactoryAware, AopInfrastructureBean {
 
@@ -105,6 +106,7 @@ public class ScopedProxyFactoryBean extends ProxyConfig
 		}
 
 		// Add an introduction that implements only the methods on ScopedObject.
+		// 设置作用域代理 Bean 的切面
 		ScopedObject scopedObject = new DefaultScopedObject(cbf, this.scopedTargetSource.getTargetBeanName());
 		pf.addAdvice(new DelegatingIntroductionInterceptor(scopedObject));
 
@@ -112,6 +114,7 @@ public class ScopedProxyFactoryBean extends ProxyConfig
 		// itself is not subject to auto-proxying! Only its target bean is.
 		pf.addInterface(AopInfrastructureBean.class);
 
+		// 返回代理对象
 		this.proxy = pf.getProxy(cbf.getBeanClassLoader());
 	}
 

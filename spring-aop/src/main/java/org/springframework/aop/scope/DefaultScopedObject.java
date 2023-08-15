@@ -57,6 +57,7 @@ public class DefaultScopedObject implements ScopedObject, Serializable {
 
 	@Override
 	public Object getTargetObject() {
+		// 作用域代理对象，每次调用其方法时，都会使用 AOP 去 Bean 工厂中获取 Bean
 		return this.beanFactory.getBean(this.targetBeanName);
 	}
 
