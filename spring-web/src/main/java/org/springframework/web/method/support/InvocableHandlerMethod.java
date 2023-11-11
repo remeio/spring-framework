@@ -160,7 +160,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
 	@Nullable
 	public Object invokeForRequest(NativeWebRequest request, @Nullable ModelAndViewContainer mavContainer,
 			Object... providedArgs) throws Exception {
-
+		// 1. 入参解析
 		Object[] args = getMethodArgumentValues(request, mavContainer, providedArgs);
 		if (logger.isTraceEnabled()) {
 			logger.trace("Arguments: " + Arrays.toString(args));
@@ -171,7 +171,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
 			this.methodValidator.validateArguments(
 					getBean(), getBridgedMethod(), getMethodParameters(), args, groups);
 		}
-
+		// 2. 反射调用
 		Object returnValue = doInvoke(args);
 
 		if (shouldValidateReturnValue() && this.methodValidator != null) {

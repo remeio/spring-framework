@@ -141,6 +141,7 @@ import org.springframework.web.util.WebUtils;
  * @see #setNamespace
  */
 @SuppressWarnings("serial")
+// Spring MVC 的基础 Servlet，提供了模板方法，子类只需实现抽象方法 doService 即可
 public abstract class FrameworkServlet extends HttpServletBean implements ApplicationContextAware {
 
 	/**
@@ -295,6 +296,7 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 	 * @see org.springframework.web.WebApplicationInitializer
 	 */
 	public FrameworkServlet(WebApplicationContext webApplicationContext) {
+		// 设置 Spring 应用上下文
 		this.webApplicationContext = webApplicationContext;
 	}
 
@@ -527,6 +529,7 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 	 */
 	@Override
 	protected final void initServletBean() throws ServletException {
+		// 初始化 Servlet
 		getServletContext().log("Initializing Spring " + getClass().getSimpleName() + " '" + getServletName() + "'");
 		if (logger.isInfoEnabled()) {
 			logger.info("Initializing Servlet '" + getServletName() + "'");
@@ -877,13 +880,16 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 	 * Override the parent class implementation in order to intercept requests
 	 * using PATCH or non-standard HTTP methods (WebDAV).
 	 */
+	// HTTP 请求的入口，入参为 HttpServletRequest 和 HttpServletResponse
+	// Spring MVC 处理请求的核心方法为 org.springframework.web.servlet.FrameworkServlet.processRequest
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		// 如果是 Servlet 本身支持的 METHOD，直接走父类方法进行分发，走父类而不是直接走 processRequest 方法是为了满足 HTTP 协议定义，如 GET 未修改过直接返回 304
 		if (HTTP_SERVLET_METHODS.contains(request.getMethod())) {
 			super.service(request, response);
 		}
+		// 否则，直接走处理请求方法
 		else {
 			processRequest(request, response);
 		}
@@ -896,6 +902,7 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 	 * @see #doService
 	 * @see #doHead
 	 */
+	// 处理 GET 请求
 	@Override
 	protected final void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -907,6 +914,7 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 	 * Delegate POST requests to {@link #processRequest}.
 	 * @see #doService
 	 */
+	// 处理 POST 请求
 	@Override
 	protected final void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -990,6 +998,7 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 	 * <p>The actual event handling is performed by the abstract
 	 * {@link #doService} template method.
 	 */
+	// Spring MVC 处理请求的核心方法，无论是 GET，POST 还是 PUT 等，最终都会通过该方法处理
 	protected final void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -1008,6 +1017,7 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 		initContextHolders(request, localeContext, requestAttributes);
 
 		try {
+			// 处理服务
 			doService(request, response);
 		}
 		catch (ServletException | IOException ex) {

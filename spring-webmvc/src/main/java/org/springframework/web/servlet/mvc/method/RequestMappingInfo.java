@@ -379,17 +379,21 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 	 * patterns on top.
 	 * @return a new instance in case of a match; or {@code null} otherwise
 	 */
+	// RequestMapping 判断当前请求是否和请求映射匹配
 	@Override
 	@Nullable
 	public RequestMappingInfo getMatchingCondition(HttpServletRequest request) {
+		// 方法检查
 		RequestMethodsRequestCondition methods = this.methodsCondition.getMatchingCondition(request);
 		if (methods == null) {
 			return null;
 		}
+		// 参数检查
 		ParamsRequestCondition params = this.paramsCondition.getMatchingCondition(request);
 		if (params == null) {
 			return null;
 		}
+		// header 检查
 		HeadersRequestCondition headers = this.headersCondition.getMatchingCondition(request);
 		if (headers == null) {
 			return null;
@@ -403,6 +407,7 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 			return null;
 		}
 		PathPatternsRequestCondition pathPatterns = null;
+		// 路径检查
 		if (this.pathPatternsCondition != null) {
 			pathPatterns = this.pathPatternsCondition.getMatchingCondition(request);
 			if (pathPatterns == null) {

@@ -72,6 +72,7 @@ import org.springframework.web.method.HandlerMethod;
  * @see org.springframework.web.servlet.theme.ThemeChangeInterceptor
  * @see jakarta.servlet.Filter
  */
+// 处理器拦截器
 public interface HandlerInterceptor {
 
 	/**
@@ -94,6 +95,7 @@ public interface HandlerInterceptor {
 	 * that this interceptor has already dealt with the response itself.
 	 * @throws Exception in case of errors
 	 */
+	// 前置处理，返回 false 代表响应已经设置好，不需要 DispatcherServlet 处理
 	default boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 
@@ -121,6 +123,7 @@ public interface HandlerInterceptor {
 	 * (can also be {@code null})
 	 * @throws Exception in case of errors
 	 */
+	// 后置处理
 	default void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			@Nullable ModelAndView modelAndView) throws Exception {
 	}
@@ -146,6 +149,7 @@ public interface HandlerInterceptor {
 	 * include exceptions that have been handled through an exception resolver
 	 * @throws Exception in case of errors
 	 */
+	// 完成处理
 	default void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
 			@Nullable Exception ex) throws Exception {
 	}

@@ -37,12 +37,15 @@ import org.springframework.util.CollectionUtils;
  * @since 20.06.2003
  * @see HandlerInterceptor
  */
+// 处理器执行链，包含处理器和处理器拦截器列表
 public class HandlerExecutionChain {
 
 	private static final Log logger = LogFactory.getLog(HandlerExecutionChain.class);
 
+	// 处理器
 	private final Object handler;
 
+	// 处理器拦截器列表
 	private final List<HandlerInterceptor> interceptorList = new ArrayList<>();
 
 	private int interceptorIndex = -1;
@@ -141,9 +144,12 @@ public class HandlerExecutionChain {
 	 * that this interceptor has already dealt with the response itself.
 	 */
 	boolean applyPreHandle(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// 依次执行前置处理
 		for (int i = 0; i < this.interceptorList.size(); i++) {
 			HandlerInterceptor interceptor = this.interceptorList.get(i);
+			// 如果处理器拦截器的前置处理方法返回 false，代表 response 已经设置好，直接完成，无需再经过 DispatcherServlet
 			if (!interceptor.preHandle(request, response, this.handler)) {
+				// 完成处理
 				triggerAfterCompletion(request, response, null);
 				return false;
 			}

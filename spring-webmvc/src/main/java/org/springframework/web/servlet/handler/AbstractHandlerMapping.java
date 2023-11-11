@@ -499,9 +499,11 @@ public abstract class AbstractHandlerMapping extends WebApplicationObjectSupport
 	 * @return the corresponding handler instance, or the default handler
 	 * @see #getHandlerInternal
 	 */
+	// 根据 HTTP 请求查找处理器执行链
 	@Override
 	@Nullable
 	public final HandlerExecutionChain getHandler(HttpServletRequest request) throws Exception {
+		// 根据 HTTP 请求查找处理器，模板方法模式，由子类实现抽象方法 getHandlerInternal 即可
 		Object handler = getHandlerInternal(request);
 		if (handler == null) {
 			handler = getDefaultHandler();
@@ -511,6 +513,7 @@ public abstract class AbstractHandlerMapping extends WebApplicationObjectSupport
 		}
 		// Bean name or resolved handler?
 		if (handler instanceof String handlerName) {
+			// 处理器是字符串，代表是 Bean 名称，直接从应用上下文中获取
 			handler = obtainApplicationContext().getBean(handlerName);
 		}
 
@@ -519,6 +522,7 @@ public abstract class AbstractHandlerMapping extends WebApplicationObjectSupport
 			initLookupPath(request);
 		}
 
+		// 封装处理器执行链
 		HandlerExecutionChain executionChain = getHandlerExecutionChain(handler, request);
 
 		if (logger.isTraceEnabled()) {
@@ -620,11 +624,13 @@ public abstract class AbstractHandlerMapping extends WebApplicationObjectSupport
 
 		for (HandlerInterceptor interceptor : this.adaptedInterceptors) {
 			if (interceptor instanceof MappedInterceptor mappedInterceptor) {
+				// MappedInterceptor 需要满足条件才添加拦截器
 				if (mappedInterceptor.matches(request)) {
 					chain.addInterceptor(mappedInterceptor.getInterceptor());
 				}
 			}
 			else {
+				// 添加拦截器
 				chain.addInterceptor(interceptor);
 			}
 		}

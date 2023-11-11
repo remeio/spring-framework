@@ -285,6 +285,7 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 	 */
 	@Override
 	protected boolean isHandler(Class<?> beanType) {
+		// 标注了 Controller 的 Bean 视为 Handler
 		return AnnotatedElementUtils.hasAnnotation(beanType, Controller.class);
 	}
 

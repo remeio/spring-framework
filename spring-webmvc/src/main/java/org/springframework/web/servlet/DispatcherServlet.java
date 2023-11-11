@@ -931,8 +931,10 @@ public class DispatcherServlet extends FrameworkServlet {
 	 * Exposes the DispatcherServlet-specific request attributes and delegates to {@link #doDispatch}
 	 * for the actual dispatching.
 	 */
+	// Spring MVC 进行请求的分发及处理，MVC 处理逻辑的入口
 	@Override
 	protected void doService(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// 打印请求日志
 		logRequest(request);
 
 		// Keep a snapshot of the request attributes in case of an include,
@@ -971,6 +973,7 @@ public class DispatcherServlet extends FrameworkServlet {
 		}
 
 		try {
+			// 分发请求
 			doDispatch(request, response);
 		}
 		finally {
@@ -1038,6 +1041,7 @@ public class DispatcherServlet extends FrameworkServlet {
 	 * @throws Exception in case of any kind of processing failure
 	 */
 	@SuppressWarnings("deprecation")
+	// 分发 HTTP 请求到对应的 Handler 进行处理
 	protected void doDispatch(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpServletRequest processedRequest = request;
 		HandlerExecutionChain mappedHandler = null;
@@ -1054,13 +1058,16 @@ public class DispatcherServlet extends FrameworkServlet {
 				multipartRequestParsed = (processedRequest != request);
 
 				// Determine handler for the current request.
+				// 1. 获取当前请求的处理器执行链，其包含处理器和处理器拦截器列表
 				mappedHandler = getHandler(processedRequest);
 				if (mappedHandler == null) {
+					// 未找到请求的处理器，会返回错误码 404
 					noHandlerFound(processedRequest, response);
 					return;
 				}
 
 				// Determine handler adapter for the current request.
+				// 2.获取当前请求的处理器的处理器适配器
 				HandlerAdapter ha = getHandlerAdapter(mappedHandler.getHandler());
 
 				// Process last-modified header, if supported by the handler.
@@ -1073,18 +1080,22 @@ public class DispatcherServlet extends FrameworkServlet {
 					}
 				}
 
+				// 3. 处理器拦截器前置处理
 				if (!mappedHandler.applyPreHandle(processedRequest, response)) {
+					// 如果处理器拦截器前置处理返回了 false，意味着拦截器中已设置好 response，无需 DipatcherServlet 进行设置
 					return;
 				}
 
 				// Actually invoke the handler.
+				// 4. 调用处理器适配器的处理方法
 				mv = ha.handle(processedRequest, response, mappedHandler.getHandler());
 
 				if (asyncManager.isConcurrentHandlingStarted()) {
 					return;
 				}
-
+				// 5. 应用默认视图名称
 				applyDefaultViewName(processedRequest, mv);
+				// 6. 处理器拦截器后置处理
 				mappedHandler.applyPostHandle(processedRequest, response, mv);
 			}
 			catch (Exception ex) {
@@ -1095,6 +1106,7 @@ public class DispatcherServlet extends FrameworkServlet {
 				// making them available for @ExceptionHandler methods and other scenarios.
 				dispatchException = new ServletException("Handler dispatch failed: " + err, err);
 			}
+			// 7. 处理分发结果
 			processDispatchResult(processedRequest, response, mappedHandler, mv, dispatchException);
 		}
 		catch (Exception ex) {
@@ -1141,7 +1153,7 @@ public class DispatcherServlet extends FrameworkServlet {
 			@Nullable Exception exception) throws Exception {
 
 		boolean errorView = false;
-
+		// 如果抛出异常，进行统一异常处理
 		if (exception != null) {
 			if (exception instanceof ModelAndViewDefiningException mavDefiningException) {
 				logger.debug("ModelAndViewDefiningException encountered", exception);
@@ -1149,6 +1161,7 @@ public class DispatcherServlet extends FrameworkServlet {
 			}
 			else {
 				Object handler = (mappedHandler != null ? mappedHandler.getHandler() : null);
+				// 异常处理
 				mv = processHandlerException(request, response, handler, exception);
 				errorView = (mv != null);
 			}
@@ -1156,6 +1169,7 @@ public class DispatcherServlet extends FrameworkServlet {
 
 		// Did the handler return a view to render?
 		if (mv != null && !mv.wasCleared()) {
+			// 有视图进行视图的渲染
 			render(mv, request, response);
 			if (errorView) {
 				WebUtils.clearErrorRequestAttributes(request);
@@ -1271,6 +1285,7 @@ public class DispatcherServlet extends FrameworkServlet {
 	@Nullable
 	protected HandlerExecutionChain getHandler(HttpServletRequest request) throws Exception {
 		if (this.handlerMappings != null) {
+			// 依次尝试通过不同的处理器映射去获取处理器，责任链模式
 			for (HandlerMapping mapping : this.handlerMappings) {
 				HandlerExecutionChain handler = mapping.getHandler(request);
 				if (handler != null) {
@@ -1307,6 +1322,7 @@ public class DispatcherServlet extends FrameworkServlet {
 	 */
 	protected HandlerAdapter getHandlerAdapter(Object handler) throws ServletException {
 		if (this.handlerAdapters != null) {
+			// 依次尝试不同的处理器适配器是否支持该处理器，责任链模式
 			for (HandlerAdapter adapter : this.handlerAdapters) {
 				if (adapter.supports(handler)) {
 					return adapter;

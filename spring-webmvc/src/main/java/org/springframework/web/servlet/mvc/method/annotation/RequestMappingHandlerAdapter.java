@@ -783,6 +783,7 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 		return true;
 	}
 
+	// 处理请求
 	@Override
 	protected ModelAndView handleInternal(HttpServletRequest request,
 			HttpServletResponse response, HandlerMethod handlerMethod) throws Exception {
@@ -805,6 +806,7 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 			}
 		}
 		else {
+			// 调用 HandlerMethod
 			// No synchronization on session demanded at all...
 			mav = invokeHandlerMethod(request, response, handlerMethod);
 		}
@@ -893,7 +895,7 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 			});
 			invocableMethod = invocableMethod.wrapConcurrentResult(result);
 		}
-
+		// 反射处理请求
 		invocableMethod.invokeAndHandle(webRequest, mavContainer);
 		if (asyncManager.isConcurrentHandlingStarted()) {
 			return null;
