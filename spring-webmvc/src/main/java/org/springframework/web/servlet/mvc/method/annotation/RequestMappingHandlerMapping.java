@@ -221,7 +221,7 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 			this.config.setRegisteredSuffixPatternMatch(useRegisteredSuffixPatternMatch());
 			this.config.setPathMatcher(getPathMatcher());
 		}
-
+		// 调用父类注册 HandlerMethod
 		super.afterPropertiesSet();
 	}
 
@@ -297,13 +297,17 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 	 * @see #getCustomMethodCondition(Method)
 	 * @see #getCustomTypeCondition(Class)
 	 */
+	// 获取单个方法的 RequestMappingInfo
 	@Override
 	@Nullable
 	protected RequestMappingInfo getMappingForMethod(Method method, Class<?> handlerType) {
+		// 获取方法的 RequestMappingInfo
 		RequestMappingInfo info = createRequestMappingInfo(method);
 		if (info != null) {
+			// 获取类的 RequestMappingInfo
 			RequestMappingInfo typeInfo = createRequestMappingInfo(handlerType);
 			if (typeInfo != null) {
+				// 合并方法和类的 RequestMappingInfo 得到新的 RequestMappingInfo
 				info = typeInfo.combine(info);
 			}
 			if (info.isEmptyMapping()) {
@@ -338,6 +342,7 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 	 * @see #getCustomTypeCondition(Class)
 	 * @see #getCustomMethodCondition(Method)
 	 */
+	// 根据 RequestMapping 注解创建 RequestMappingInfo
 	@Nullable
 	private RequestMappingInfo createRequestMappingInfo(AnnotatedElement element) {
 		RequestMapping requestMapping = AnnotatedElementUtils.findMergedAnnotation(element, RequestMapping.class);
@@ -384,6 +389,7 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 	 * a directly declared annotation, a meta-annotation, or the synthesized
 	 * result of merging annotation attributes within an annotation hierarchy.
 	 */
+	// 根据 RequestMapping 注解创建 RequestMappingInfo
 	protected RequestMappingInfo createRequestMappingInfo(
 			RequestMapping requestMapping, @Nullable RequestCondition<?> customCondition) {
 

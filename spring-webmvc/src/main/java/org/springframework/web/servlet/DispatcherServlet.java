@@ -1186,6 +1186,7 @@ public class DispatcherServlet extends FrameworkServlet {
 			return;
 		}
 
+		// 处理器拦截链完成后置处理
 		if (mappedHandler != null) {
 			// Exception (if any) is already handled..
 			mappedHandler.triggerAfterCompletion(request, response, null);

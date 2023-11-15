@@ -379,7 +379,7 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 	 * patterns on top.
 	 * @return a new instance in case of a match; or {@code null} otherwise
 	 */
-	// RequestMapping 判断当前请求是否和请求映射匹配
+	// 判断当前请求映射是否和请求匹配
 	@Override
 	@Nullable
 	public RequestMappingInfo getMatchingCondition(HttpServletRequest request) {
@@ -425,6 +425,7 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 		if (custom == null) {
 			return null;
 		}
+		// 匹配的话创建一个新的 RequestMappingInfo 并返回
 		return new RequestMappingInfo(this.name, pathPatterns, patterns,
 				methods, params, headers, consumes, produces, custom, this.options);
 	}
@@ -436,6 +437,7 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 	 * {@link #getMatchingCondition(HttpServletRequest)} to ensure they have
 	 * conditions with content relevant to current request.
 	 */
+	// 排序对比
 	@Override
 	public int compareTo(RequestMappingInfo other, HttpServletRequest request) {
 		int result;
