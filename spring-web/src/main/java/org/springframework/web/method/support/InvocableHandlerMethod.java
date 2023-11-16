@@ -179,6 +179,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
 					getBean(), getBridgedMethod(), getReturnType(), returnValue, groups);
 		}
 
+		// 3.返回返回值
 		return returnValue;
 	}
 
@@ -188,6 +189,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
 	 * <p>The resulting array will be passed into {@link #doInvoke}.
 	 * @since 5.1.2
 	 */
+	// 解析入参
 	protected Object[] getMethodArgumentValues(NativeWebRequest request, @Nullable ModelAndViewContainer mavContainer,
 			Object... providedArgs) throws Exception {
 
@@ -196,6 +198,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
 			return EMPTY_ARGS;
 		}
 
+		// 遍历入参参数
 		Object[] args = new Object[parameters.length];
 		for (int i = 0; i < parameters.length; i++) {
 			MethodParameter parameter = parameters[i];
@@ -208,6 +211,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
 				throw new IllegalStateException(formatArgumentError(parameter, "No suitable resolver"));
 			}
 			try {
+				// 使用参数解析器解析入参，得到新的入参
 				args[i] = this.resolvers.resolveArgument(parameter, mavContainer, request, this.dataBinderFactory);
 			}
 			catch (Exception ex) {

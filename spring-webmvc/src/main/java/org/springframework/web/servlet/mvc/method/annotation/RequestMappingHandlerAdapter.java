@@ -852,6 +852,7 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	 * @see #createInvocableHandlerMethod(HandlerMethod)
 	 */
 	@SuppressWarnings("deprecation")
+	// 调用 Handler Method
 	@Nullable
 	protected ModelAndView invokeHandlerMethod(HttpServletRequest request,
 			HttpServletResponse response, HandlerMethod handlerMethod) throws Exception {
@@ -859,12 +860,14 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 		ServletWebRequest webRequest = new ServletWebRequest(request, response);
 		WebDataBinderFactory binderFactory = getDataBinderFactory(handlerMethod);
 		ModelFactory modelFactory = getModelFactory(handlerMethod, binderFactory);
-
+		// 1. 创建 Handler Method 的包装类
 		ServletInvocableHandlerMethod invocableMethod = createInvocableHandlerMethod(handlerMethod);
 		if (this.argumentResolvers != null) {
+			// 设置入参解析器
 			invocableMethod.setHandlerMethodArgumentResolvers(this.argumentResolvers);
 		}
 		if (this.returnValueHandlers != null) {
+			// 设置返回值处理器
 			invocableMethod.setHandlerMethodReturnValueHandlers(this.returnValueHandlers);
 		}
 		invocableMethod.setDataBinderFactory(binderFactory);
@@ -895,12 +898,13 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 			});
 			invocableMethod = invocableMethod.wrapConcurrentResult(result);
 		}
-		// 反射处理请求
+		// 2. 调用处理请求
 		invocableMethod.invokeAndHandle(webRequest, mavContainer);
 		if (asyncManager.isConcurrentHandlingStarted()) {
 			return null;
 		}
 
+		// 3. 返回 ModelAndView
 		return getModelAndView(mavContainer, modelFactory, webRequest);
 	}
 
