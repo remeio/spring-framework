@@ -33,6 +33,7 @@ import org.springframework.transaction.TransactionDefinition;
  * @see DefaultTransactionAttribute
  * @see RuleBasedTransactionAttribute
  */
+// 事务属性
 public interface TransactionAttribute extends TransactionDefinition {
 
 	/**
@@ -41,6 +42,7 @@ public interface TransactionAttribute extends TransactionDefinition {
 	 * to process this specific transaction.
 	 * @since 3.0
 	 */
+	// 事务限定符有
 	@Nullable
 	String getQualifier();
 
@@ -50,6 +52,7 @@ public interface TransactionAttribute extends TransactionDefinition {
 	 * or follow a purely descriptive nature.
 	 * @since 5.3
 	 */
+	// 标签
 	Collection<String> getLabels();
 
 	/**
@@ -57,6 +60,7 @@ public interface TransactionAttribute extends TransactionDefinition {
 	 * @param ex the exception to evaluate
 	 * @return whether to perform a rollback or not
 	 */
+	// 该异常是否需要回滚
 	boolean rollbackOn(Throwable ex);
 
 }

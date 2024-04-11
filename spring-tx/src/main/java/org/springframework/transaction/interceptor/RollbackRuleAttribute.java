@@ -56,6 +56,7 @@ import org.springframework.util.Assert;
  * @see NoRollbackRuleAttribute
  */
 @SuppressWarnings("serial")
+// 回滚规则属性
 public class RollbackRuleAttribute implements Serializable{
 
 	/**
@@ -154,6 +155,7 @@ public class RollbackRuleAttribute implements Serializable{
 	 * will return a depth signifying a match at the corresponding level in the
 	 * class hierarchy as if there had been a direct match.
 	 */
+	// 获取指定异常进行规则匹配的深度
 	public int getDepth(Throwable exception) {
 		return getDepth(exception.getClass(), 0);
 	}
@@ -166,6 +168,7 @@ public class RollbackRuleAttribute implements Serializable{
 				return depth;
 			}
 		}
+		// 包含规则即可
 		else if (exceptionType.getName().contains(this.exceptionPattern)) {
 			// Found it!
 			return depth;

@@ -41,6 +41,7 @@ import org.springframework.lang.Nullable;
  * @see org.springframework.transaction.support.DefaultTransactionDefinition
  * @see org.springframework.transaction.interceptor.TransactionAttribute
  */
+// 事务定义
 public interface TransactionDefinition {
 
 	/**
@@ -200,6 +201,7 @@ public interface TransactionDefinition {
 	 * @see #PROPAGATION_REQUIRED
 	 * @see org.springframework.transaction.support.TransactionSynchronizationManager#isActualTransactionActive()
 	 */
+	// 传播行为
 	default int getPropagationBehavior() {
 		return PROPAGATION_REQUIRED;
 	}
@@ -222,6 +224,7 @@ public interface TransactionDefinition {
 	 * @see #ISOLATION_DEFAULT
 	 * @see org.springframework.transaction.support.AbstractPlatformTransactionManager#setValidateExistingTransaction
 	 */
+	// 事务隔离级别
 	default int getIsolationLevel() {
 		return ISOLATION_DEFAULT;
 	}
@@ -237,6 +240,7 @@ public interface TransactionDefinition {
 	 * <p>The default is {@link #TIMEOUT_DEFAULT}.
 	 * @return the transaction timeout
 	 */
+	// 事务超时时间
 	default int getTimeout() {
 		return TIMEOUT_DEFAULT;
 	}
@@ -258,6 +262,7 @@ public interface TransactionDefinition {
 	 * @see org.springframework.transaction.support.TransactionSynchronization#beforeCommit(boolean)
 	 * @see org.springframework.transaction.support.TransactionSynchronizationManager#isCurrentTransactionReadOnly()
 	 */
+	// 是否是只读事务
 	default boolean isReadOnly() {
 		return false;
 	}
@@ -273,6 +278,7 @@ public interface TransactionDefinition {
 	 * @see org.springframework.transaction.support.TransactionSynchronizationManager#getCurrentTransactionName()
 	 */
 	@Nullable
+	// 事务的名称
 	default String getName() {
 		return null;
 	}

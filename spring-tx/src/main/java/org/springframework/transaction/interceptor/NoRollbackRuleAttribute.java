@@ -25,6 +25,7 @@ package org.springframework.transaction.interceptor;
  * @since 09.04.2003
  */
 @SuppressWarnings("serial")
+// 不回滚规则属性
 public class NoRollbackRuleAttribute extends RollbackRuleAttribute {
 
 	/**

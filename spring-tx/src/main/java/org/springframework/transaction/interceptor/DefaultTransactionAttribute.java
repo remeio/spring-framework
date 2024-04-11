@@ -36,17 +36,22 @@ import org.springframework.util.StringValueResolver;
  * @since 16.03.2003
  */
 @SuppressWarnings("serial")
+// 默认事务属性
 public class DefaultTransactionAttribute extends DefaultTransactionDefinition implements TransactionAttribute {
 
+	// 描述符
 	@Nullable
 	private String descriptor;
 
+	// 超时时间
 	@Nullable
 	private String timeoutString;
 
+	// 限定符
 	@Nullable
 	private String qualifier;
 
+	// 标签
 	private Collection<String> labels = Collections.emptyList();
 
 
@@ -182,8 +187,10 @@ public class DefaultTransactionAttribute extends DefaultTransactionDefinition im
 	 * intentionally declared as business exceptions, leading to a commit by default.
 	 * @see org.springframework.transaction.support.TransactionTemplate#execute
 	 */
+	// 该异常是否需要回滚
 	@Override
 	public boolean rollbackOn(Throwable ex) {
+		// 默认是运行时异常和错误需要回滚
 		return (ex instanceof RuntimeException || ex instanceof Error);
 	}
 
@@ -195,8 +202,10 @@ public class DefaultTransactionAttribute extends DefaultTransactionDefinition im
 	 * @param resolver the embedded value resolver to apply, if any
 	 * @since 5.3
 	 */
+	// 解析属性字符串
 	public void resolveAttributeStrings(@Nullable StringValueResolver resolver) {
 		String timeoutString = this.timeoutString;
+		// 解析超时时间
 		if (StringUtils.hasText(timeoutString)) {
 			if (resolver != null) {
 				timeoutString = resolver.resolveStringValue(timeoutString);
@@ -213,9 +222,11 @@ public class DefaultTransactionAttribute extends DefaultTransactionDefinition im
 		}
 
 		if (resolver != null) {
+			// 解析限定符
 			if (this.qualifier != null) {
 				this.qualifier = resolver.resolveStringValue(this.qualifier);
 			}
+			// 解析标签
 			Set<String> resolvedLabels = new LinkedHashSet<>(this.labels.size());
 			for (String label : this.labels) {
 				resolvedLabels.add(resolver.resolveStringValue(label));

@@ -45,9 +45,11 @@ public class ProxyTransactionManagementConfiguration extends AbstractTransaction
 	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 	public BeanFactoryTransactionAttributeSourceAdvisor transactionAdvisor(
 			TransactionAttributeSource transactionAttributeSource, TransactionInterceptor transactionInterceptor) {
-
+		// 创建事务属性来源切面
 		BeanFactoryTransactionAttributeSourceAdvisor advisor = new BeanFactoryTransactionAttributeSourceAdvisor();
+		// 设置事务属性来源
 		advisor.setTransactionAttributeSource(transactionAttributeSource);
+		// 设置通知，即事务拦截器
 		advisor.setAdvice(transactionInterceptor);
 		if (this.enableTx != null) {
 			advisor.setOrder(this.enableTx.<Integer>getNumber("order"));
@@ -59,15 +61,19 @@ public class ProxyTransactionManagementConfiguration extends AbstractTransaction
 	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 	public TransactionAttributeSource transactionAttributeSource() {
 		// Accept protected @Transactional methods on CGLIB proxies, as of 6.0.
+		// 创建注解事务属性来源
 		return new AnnotationTransactionAttributeSource(false);
 	}
 
 	@Bean
 	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 	public TransactionInterceptor transactionInterceptor(TransactionAttributeSource transactionAttributeSource) {
+		// 创建事务拦截器
 		TransactionInterceptor interceptor = new TransactionInterceptor();
+		// 设置注解事务属性来源
 		interceptor.setTransactionAttributeSource(transactionAttributeSource);
 		if (this.txManager != null) {
+			// 设置事务管理器
 			interceptor.setTransactionManager(this.txManager);
 		}
 		return interceptor;

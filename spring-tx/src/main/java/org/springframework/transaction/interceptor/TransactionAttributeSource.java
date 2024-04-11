@@ -33,6 +33,7 @@ import org.springframework.lang.Nullable;
  * @see TransactionProxyFactoryBean#setTransactionAttributeSource
  * @see org.springframework.transaction.annotation.AnnotationTransactionAttributeSource
  */
+// 事务属性来源
 public interface TransactionAttributeSource {
 
 	/**
@@ -49,6 +50,7 @@ public interface TransactionAttributeSource {
 	 * implementation returns {@code true}, leading to regular introspection.
 	 * @since 5.2
 	 */
+	// 判断给定的类是否是候选的事务属性来源
 	default boolean isCandidateClass(Class<?> targetClass) {
 		return true;
 	}
@@ -61,6 +63,7 @@ public interface TransactionAttributeSource {
 	 * in which case the declaring class of the method must be used)
 	 * @return the matching transaction attribute, or {@code null} if none found
 	 */
+	// 获取事务属性
 	@Nullable
 	TransactionAttribute getTransactionAttribute(Method method, @Nullable Class<?> targetClass);
 

@@ -34,6 +34,7 @@ import org.springframework.util.ObjectUtils;
  * @since 2.5.5
  */
 @SuppressWarnings("serial")
+// 事务属性来源切点
 class TransactionAttributeSourcePointcut extends StaticMethodMatcherPointcut implements Serializable {
 
 	@Nullable
@@ -51,6 +52,7 @@ class TransactionAttributeSourcePointcut extends StaticMethodMatcherPointcut imp
 
 	@Override
 	public boolean matches(Method method, Class<?> targetClass) {
+		// 事务属性来源为空或存在事务属性时，切点匹配
 		return (this.transactionAttributeSource == null ||
 				this.transactionAttributeSource.getTransactionAttribute(method, targetClass) != null);
 	}
@@ -85,6 +87,7 @@ class TransactionAttributeSourcePointcut extends StaticMethodMatcherPointcut imp
 					PersistenceExceptionTranslator.class.isAssignableFrom(clazz)) {
 				return false;
 			}
+			// 是否是候选类
 			return (transactionAttributeSource == null || transactionAttributeSource.isCandidateClass(clazz));
 		}
 	}

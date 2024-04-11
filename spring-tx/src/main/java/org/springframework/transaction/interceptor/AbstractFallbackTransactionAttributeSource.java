@@ -82,6 +82,7 @@ public abstract class AbstractFallbackTransactionAttributeSource
 	 * <p>As this base class is not marked Serializable, the cache will be recreated
 	 * after serialization - provided that the concrete subclass is Serializable.
 	 */
+	// 事务属性缓存
 	private final Map<Object, TransactionAttribute> attributeCache = new ConcurrentHashMap<>(1024);
 
 
@@ -99,34 +100,43 @@ public abstract class AbstractFallbackTransactionAttributeSource
 	 * @return a TransactionAttribute for this method, or {@code null} if the method
 	 * is not transactional
 	 */
+	// 从类和方法中获取事务属性
 	@Override
 	@Nullable
 	public TransactionAttribute getTransactionAttribute(Method method, @Nullable Class<?> targetClass) {
+		// Object 直接返回
 		if (method.getDeclaringClass() == Object.class) {
 			return null;
 		}
 
 		// First, see if we have a cached value.
+		// 从事务属性缓存中获取事务属性
 		Object cacheKey = getCacheKey(method, targetClass);
 		TransactionAttribute cached = this.attributeCache.get(cacheKey);
+		// 缓存中存在事务属性
 		if (cached != null) {
 			// Value will either be canonical value indicating there is no transaction attribute,
 			// or an actual transaction attribute.
+			// 不存在事务属性
 			if (cached == NULL_TRANSACTION_ATTRIBUTE) {
 				return null;
 			}
+			// 存在事务属性
 			else {
 				return cached;
 			}
 		}
 		else {
 			// We need to work it out.
+			// 计算事务属性
 			TransactionAttribute txAttr = computeTransactionAttribute(method, targetClass);
 			// Put it in the cache.
 			if (txAttr == null) {
+				// 加入缓存
 				this.attributeCache.put(cacheKey, NULL_TRANSACTION_ATTRIBUTE);
 			}
 			else {
+				// 获取方法的限定符
 				String methodIdentification = ClassUtils.getQualifiedMethodName(method, targetClass);
 				if (txAttr instanceof DefaultTransactionAttribute dta) {
 					dta.setDescriptor(methodIdentification);
@@ -135,6 +145,7 @@ public abstract class AbstractFallbackTransactionAttributeSource
 				if (logger.isTraceEnabled()) {
 					logger.trace("Adding transactional method '" + methodIdentification + "' with attribute: " + txAttr);
 				}
+				// 加入缓存
 				this.attributeCache.put(cacheKey, txAttr);
 			}
 			return txAttr;
@@ -161,29 +172,35 @@ public abstract class AbstractFallbackTransactionAttributeSource
 	 * @see #getTransactionAttribute
 	 */
 	@Nullable
+	// 计算事务属性
 	protected TransactionAttribute computeTransactionAttribute(Method method, @Nullable Class<?> targetClass) {
 		// Don't allow non-public methods, as configured.
 		if (allowPublicMethodsOnly() && !Modifier.isPublic(method.getModifiers())) {
+			// 事务仅允许公共方法，且方法的修饰符不是公共的，返回空
 			return null;
 		}
 
 		// The method may be on an interface, but we need attributes from the target class.
 		// If the target class is null, the method will be unchanged.
+		// 获取具体的方法
 		Method specificMethod = AopUtils.getMostSpecificMethod(method, targetClass);
 
 		// First try is the method in the target class.
+		// 从方法上获取事务属性
 		TransactionAttribute txAttr = findTransactionAttribute(specificMethod);
 		if (txAttr != null) {
 			return txAttr;
 		}
 
 		// Second try is the transaction attribute on the target class.
+		// 从类上获取事务属性
 		txAttr = findTransactionAttribute(specificMethod.getDeclaringClass());
 		if (txAttr != null && ClassUtils.isUserLevelMethod(method)) {
 			return txAttr;
 		}
 
 		if (specificMethod != method) {
+			// 退路到接口方法获取事务属性
 			// Fallback is to look at the original method.
 			txAttr = findTransactionAttribute(method);
 			if (txAttr != null) {
@@ -206,6 +223,7 @@ public abstract class AbstractFallbackTransactionAttributeSource
 	 * @param clazz the class to retrieve the attribute for
 	 * @return all transaction attribute associated with this class, or {@code null} if none
 	 */
+	// 从类上获取事务属性
 	@Nullable
 	protected abstract TransactionAttribute findTransactionAttribute(Class<?> clazz);
 
@@ -215,6 +233,7 @@ public abstract class AbstractFallbackTransactionAttributeSource
 	 * @param method the method to retrieve the attribute for
 	 * @return all transaction attribute associated with this method, or {@code null} if none
 	 */
+	// 从方法上获取事务属性
 	@Nullable
 	protected abstract TransactionAttribute findTransactionAttribute(Method method);
 

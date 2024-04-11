@@ -36,6 +36,7 @@ import org.springframework.lang.Nullable;
  * @see TransactionAttributeEditor
  */
 @SuppressWarnings("serial")
+// 基于规则的事务属性
 public class RuleBasedTransactionAttribute extends DefaultTransactionAttribute implements Serializable {
 
 	/** Prefix for rollback-on-exception rules in description strings. */
@@ -44,7 +45,7 @@ public class RuleBasedTransactionAttribute extends DefaultTransactionAttribute i
 	/** Prefix for commit-on-exception rules in description strings. */
 	public static final String PREFIX_COMMIT_RULE = "+";
 
-
+	// 回滚规则
 	@Nullable
 	private List<RollbackRuleAttribute> rollbackRules;
 
@@ -121,6 +122,7 @@ public class RuleBasedTransactionAttribute extends DefaultTransactionAttribute i
 	 * return false.
 	 * @see TransactionAttribute#rollbackOn(java.lang.Throwable)
 	 */
+	// 判断是否需要回滚
 	@Override
 	public boolean rollbackOn(Throwable ex) {
 		RollbackRuleAttribute winner = null;
@@ -129,6 +131,7 @@ public class RuleBasedTransactionAttribute extends DefaultTransactionAttribute i
 		if (this.rollbackRules != null) {
 			for (RollbackRuleAttribute rule : this.rollbackRules) {
 				int depth = rule.getDepth(ex);
+				// 获取最接近的规则
 				if (depth >= 0 && depth < deepest) {
 					deepest = depth;
 					winner = rule;

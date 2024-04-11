@@ -41,16 +41,19 @@ import org.springframework.util.StringUtils;
  * @since 2.5
  */
 @SuppressWarnings("serial")
+// Spring 事务注解转换器
 public class SpringTransactionAnnotationParser implements TransactionAnnotationParser, Serializable {
 
 	@Override
 	public boolean isCandidateClass(Class<?> targetClass) {
+		// 该类的类、方法或字段上是否标注了 @Transactional 注解
 		return AnnotationUtils.isCandidateClass(targetClass, Transactional.class);
 	}
 
 	@Override
 	@Nullable
 	public TransactionAttribute parseTransactionAnnotation(AnnotatedElement element) {
+		// 获取事务注解
 		AnnotationAttributes attributes = AnnotatedElementUtils.findMergedAnnotationAttributes(
 				element, Transactional.class, false, false);
 		if (attributes != null) {
@@ -66,6 +69,7 @@ public class SpringTransactionAnnotationParser implements TransactionAnnotationP
 	}
 
 	protected TransactionAttribute parseTransactionAnnotation(AnnotationAttributes attributes) {
+		// 创建基于规则的事务属性
 		RuleBasedTransactionAttribute rbta = new RuleBasedTransactionAttribute();
 
 		Propagation propagation = attributes.getEnum("propagation");

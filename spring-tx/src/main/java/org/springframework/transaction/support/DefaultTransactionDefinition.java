@@ -34,6 +34,7 @@ import org.springframework.transaction.TransactionDefinition;
  * @since 08.05.2003
  */
 @SuppressWarnings("serial")
+// 默认事务定义
 public class DefaultTransactionDefinition implements TransactionDefinition, Serializable {
 
 	/** Prefix for the propagation constants defined in TransactionDefinition. */
